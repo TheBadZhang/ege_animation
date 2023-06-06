@@ -1,7 +1,7 @@
 #include "animation.hpp"
+#define SHOW_CONSOLE
 #include <graphics.h>
 #include <ctime>
-
 mouse_msg gMouseMsg = { 0 };
 key_msg gKeyMsg = { 0 };
 
@@ -50,8 +50,9 @@ int main (int argc, char *argv []) {
 	auto x_pos_trans2 = xege::animation::trans(
 		static_cast<double>(rect2.x),
 		static_cast<double>(rect2.x+400),
-		fps*time_second,
-		xege::animation::builtin_motion::func1
+		fps*3.0,
+		xege::animation::builtin_motion::bezier3(0.68,-0.6,0.32,1.6),
+		0.0, true, true
 	);
 	auto y_pos_trans2 = xege::animation::trans(
 		static_cast<double>(rect2.y),
@@ -74,7 +75,7 @@ int main (int argc, char *argv []) {
 		rect.x = x_pos_trans();
 		rect.y = y_pos_trans();
 		rect2.x = x_pos_trans2();
-		rect2.y = y_pos_trans2();
+		// rect2.y = y_pos_trans2();
 		putpixel(rect.x, rect.y, WHITE, pic2);
 		putpixel(rect2.x, rect2.y, WHITE, pic2);
 		putimage(0, 0, pic2);
