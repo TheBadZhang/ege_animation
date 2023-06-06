@@ -1,0 +1,16 @@
+add_repositories("xege-repo git@gitee.com:xege/ege-xrepo.git")
+add_requires("xege 20.08")
+
+target ("show_wave")
+	add_packages("xege")
+	set_kind ("binary")
+	set_languages("c++2a")
+	add_files ("$(projectdir)/show_wave.cc")
+	set_warnings("everything")
+
+target ("main")
+	add_packages("xege")
+	set_kind ("binary")
+	set_languages("c++2a")
+	add_files ("$(projectdir)/main.cpp")
+	set_warnings("everything")
