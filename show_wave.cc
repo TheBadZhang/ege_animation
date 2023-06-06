@@ -76,6 +76,9 @@ void load (void) {
 	draw(pic2, 400, 100, 100, xege::animation::builtin_motion::linear)();
 	draw(pic2, 550, 100, 100, xege::animation::builtin_motion::sin_wave)();
 	draw(pic2, 100, 250, 100, xege::animation::builtin_motion::square_speed_up)();
+	draw(pic2, 250, 250, 100, xege::animation::builtin_motion::square_speed_down)();
+	// draw(pic2, 400, 250, 100, xege::animation::builtin_motion::square_speed_up_reverse)();
+	// draw(pic2, 100, 400, 100, xege::animation::builtin_motion::square_speed_down_reverse)();
 }
 void eventUpdate (void) {
 //
