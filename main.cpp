@@ -2,6 +2,7 @@
 #define SHOW_CONSOLE
 #include <graphics.h>
 #include <ctime>
+#include <vector>
 mouse_msg gMouseMsg = { 0 };
 key_msg gKeyMsg = { 0 };
 
@@ -30,7 +31,7 @@ int main (int argc, char *argv []) {
 	initgraph (800, 800);
 	// setbkmode (TRANSPARENT);
 	load ();
-
+	std::vector<double> x_motion;
 	const int fps = 60;
 	double time_second = 4.0;
 	rect.x = 100;
@@ -51,9 +52,14 @@ int main (int argc, char *argv []) {
 		static_cast<double>(rect2.x),
 		static_cast<double>(rect2.x+400),
 		fps*3.0,
-		xege::animation::builtin_motion::bezier3(0.68,-0.6,0.32,1.6),
+		xege::animation::builtin_motion::easeInOutElastic,
+		// xege::animation::builtin_motion::bezier3(0.68,-0.6,0.32,1.6),
 		0.0, true, true
 	);
+	for (int i = 0; i < fps*3.0; i++) {
+		x_motion.push_back(x_pos_trans2());
+	}
+	auto another_x = xege::animation::trans(x_motion);
 	auto y_pos_trans2 = xege::animation::trans(
 		static_cast<double>(rect2.y),
 		static_cast<double>(rect2.y+400),
@@ -74,7 +80,7 @@ int main (int argc, char *argv []) {
 		dataUpdate ();
 		rect.x = x_pos_trans();
 		rect.y = y_pos_trans();
-		rect2.x = x_pos_trans2();
+		rect2.y = another_x();
 		// rect2.y = y_pos_trans2();
 		putpixel(rect.x, rect.y, WHITE, pic2);
 		putpixel(rect2.x, rect2.y, WHITE, pic2);
