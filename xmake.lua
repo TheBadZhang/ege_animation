@@ -1,6 +1,14 @@
 add_repositories("xege-repo git@gitee.com:xege/ege-xrepo.git")
 add_requires("xege 20.08")
 
+target ("pic_transparent")
+	add_packages("xege")
+	set_kind ("binary")
+	set_languages("c++2a")
+	add_files ("$(projectdir)/pic_transparent.cc")
+	set_warnings("everything")
+	set_rundir("$(projectdir)")
+
 target ("show_wave")
 	add_packages("xege")
 	set_kind ("binary")
