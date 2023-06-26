@@ -6,8 +6,8 @@ namespace xege {
 namespace animation {
 long double operator"" pi(long double x) { return x*3.1415926; }
 // long double operator"" pi(long long x) { return x*3.1415926; }
-double x2(double x) { return x*x; }
-double x3(double x) { return x*x*x; }
+inline double x2(double x) { return x*x; }
+inline double x3(double x) { return x*x*x; }
 namespace builtin_motion {
 
 	/**
@@ -25,7 +25,7 @@ namespace builtin_motion {
 	 * @return std::function<double(double)>
 	 * @retval 返回可接纳的运动曲线函数描述
 	 */
-	std::function<double(double)> bezier3(double x1, double y1, double x2, double y2) {
+	inline std::function<double(double)> bezier3(double x1, double y1, double x2, double y2) {
 
 		double ax = 3 * x1 - 3 * x2 + 1,
 			bx = 3 * x2 - 6 * x1,
@@ -67,27 +67,27 @@ namespace builtin_motion {
 	 * @brief 线性运动曲线
 	 *
 	 */
-	auto linear = [](double x) { return x; };
+	inline auto linear = [](double x) { return x; };
 	/**
 	 * @brief 线性也可以用贝塞尔曲线表示
 	 *
 	 */
-	auto linear_bezier = bezier3(0.5,0.5,0.5,0.5);
+	inline auto linear_bezier = bezier3(0.5,0.5,0.5,0.5);
 	/**
 	 * @brief 平方加速运动（二次方运动曲线）
 	 *
 	 */
-	auto square_speed_up = [](double x) { return x*x; };
+	inline auto square_speed_up = [](double x) { return x*x; };
 	/**
 	 * @brief 平方减速运动（二次方运动曲线）
 	 *
 	 */
-	auto square_speed_down = [](double x) { return 1-(x-1)*(x-1); };
+	inline auto square_speed_down = [](double x) { return 1-(x-1)*(x-1); };
 	/**
 	 * @brief 反向平方加速运动（二次方运动曲线）
 	 *
 	 */
-	auto square_speed_up_reverse = [](double x) { return 1-x*x; };
+	inline auto square_speed_up_reverse = [](double x) { return 1-x*x; };
 	/**
 	 * @brief 正弦曲线
 	 * @param amfier 振幅
@@ -95,59 +95,59 @@ namespace builtin_motion {
 	 * @param offsety y轴偏移
 	 * @param angular_frequency 角频率
 	 */
-	auto sin_wave = [](double x,
+	inline auto sin_wave = [](double x,
 		double amfier = 1.0,
 		double offsetx = 0.0,
 		double offsety = 0.0,
 		double angular_frequency = 1.0pi) {
 			return offsety+amfier*sin((x-offsetx)*angular_frequency);
 	};
-	auto func123 = [](double x) { return 1-4*(x-0.5)*(x-0.5); };
-	auto func321 = [](double x) { return 4*(x-0.5)*(x-0.5); };
-	auto func1 = [](double x) { return x < 0.5 ? x2(x*2) : 1-x2(x*2-1); };
-	auto func2 = [](double x) { return x < 0.5 ? 1-x2((x-0.5)*2) : x2((x-1)*2);};
+	inline auto func123 = [](double x) { return 1-4*(x-0.5)*(x-0.5); };
+	inline auto func321 = [](double x) { return 4*(x-0.5)*(x-0.5); };
+	inline auto func1 = [](double x) { return x < 0.5 ? x2(x*2) : 1-x2(x*2-1); };
+	inline auto func2 = [](double x) { return x < 0.5 ? 1-x2((x-0.5)*2) : x2((x-1)*2);};
 
 	// 以下内置缓动函数参考自 easings.net
-	auto easeInSine = bezier3(0.12,0,0.39,0);
-	auto easeOutSine = bezier3(0.61,1,0.88,1);
-	auto easeInOutSine = bezier3(0.37,0,0.63,1);
-	auto easeInQuad = bezier3(0.11,0,0.5,0);
-	auto easeOutQuad = bezier3(0.5,1,0.89,1);
-	auto easeInOutQuad = bezier3(0.45,0,0.55,1);
+	inline auto easeInSine = bezier3(0.12,0,0.39,0);
+	inline auto easeOutSine = bezier3(0.61,1,0.88,1);
+	inline auto easeInOutSine = bezier3(0.37,0,0.63,1);
+	inline auto easeInQuad = bezier3(0.11,0,0.5,0);
+	inline auto easeOutQuad = bezier3(0.5,1,0.89,1);
+	inline auto easeInOutQuad = bezier3(0.45,0,0.55,1);
 
-	auto easeInCubic = bezier3(0.32,0,0.67,0);
-	auto easeOutCubic = bezier3(0.33,1,0.68,1);
-	auto easeInOutCubic = bezier3(0.65,0,0.35,1);
-	auto easeInQuart = bezier3(0.5,0,0.75,0);
-	auto easeOutQuart = bezier3(0.25,1,0.5,1);
-	auto easeInOutQuart = bezier3(0.76,0,0.24,1);
+	inline auto easeInCubic = bezier3(0.32,0,0.67,0);
+	inline auto easeOutCubic = bezier3(0.33,1,0.68,1);
+	inline auto easeInOutCubic = bezier3(0.65,0,0.35,1);
+	inline auto easeInQuart = bezier3(0.5,0,0.75,0);
+	inline auto easeOutQuart = bezier3(0.25,1,0.5,1);
+	inline auto easeInOutQuart = bezier3(0.76,0,0.24,1);
 
-	auto easeInQuint = bezier3(0.64,0,0.78,0);
-	auto easeOutQuint = bezier3(0.22,1,0.36,1);
-	auto easeInOutQuint = bezier3(0.83,0,0.17,1);
-	auto easeInExpo = bezier3(0.7,0,0.84,0);
-	auto easeOutExpo = bezier3(0.16,1,0.3,1);
-	auto easeInOutExpo = bezier3(0.87,0,0.13,1);
+	inline auto easeInQuint = bezier3(0.64,0,0.78,0);
+	inline auto easeOutQuint = bezier3(0.22,1,0.36,1);
+	inline auto easeInOutQuint = bezier3(0.83,0,0.17,1);
+	inline auto easeInExpo = bezier3(0.7,0,0.84,0);
+	inline auto easeOutExpo = bezier3(0.16,1,0.3,1);
+	inline auto easeInOutExpo = bezier3(0.87,0,0.13,1);
 
-	auto easeInCirc = bezier3(0.55,0,1,0.45);
-	auto easeOutCirc = bezier3(0,0.55,0.45,1);
-	auto easeInOutCirc = bezier3(0.85,0,0.15,1);
-	auto easeInBack = bezier3(0.36,0,0.66,-0.56);
-	auto easeOutBack = bezier3(0.34,1.56,0.64,1);
-	auto easeInOutBack = bezier3(0.68,-0.6,0.32,1.6);
+	inline auto easeInCirc = bezier3(0.55,0,1,0.45);
+	inline auto easeOutCirc = bezier3(0,0.55,0.45,1);
+	inline auto easeInOutCirc = bezier3(0.85,0,0.15,1);
+	inline auto easeInBack = bezier3(0.36,0,0.66,-0.56);
+	inline auto easeOutBack = bezier3(0.34,1.56,0.64,1);
+	inline auto easeInOutBack = bezier3(0.68,-0.6,0.32,1.6);
 
-	auto easeInElastic = [](double x) {
+	inline auto easeInElastic = [](double x) {
 		return x == 0 ? 0 : x == 1 ? 1 : -pow(2,10*(x-1))*sin((x-1.075)*2.0pi/0.3);
 	};
-	auto easeOutElastic = [](double x) {
+	inline auto easeOutElastic = [](double x) {
 		return x == 0 ? 0 : x == 1 ? 1 : pow(2,-10*x)*sin((x-0.075)*2.0pi/0.3)+1;
 	};
-	auto easeInOutElastic = [](double x) {
+	inline auto easeInOutElastic = [](double x) {
 		return x == 0 ? 0 : x == 1 ? 1 : x < 0.5 ?
 			-pow(2,20*x-10)*sin((20*x-11.125)*2.0pi/4.5)/2 :
 			pow(2,-20*x+10)*sin((20*x-11.125)*2.0pi/4.5)/2+1;
 	};
-	auto easeOutBounce = [](double x, double n1 = 7.5625, double d1 = 2.75) {
+	inline auto easeOutBounce = [](double x, double n1 = 7.5625, double d1 = 2.75) {
 		return x == 0 ? 0 : x == 1 ? 1 : x < 1/d1 ?
 			n1*x*x :
 			x < 2/d1 ?
@@ -156,10 +156,10 @@ namespace builtin_motion {
 			n1*(x-=(2.25/d1))*x+0.9375 :
 			n1*(x-=(2.625/d1))*x+0.984375;
 	};
-	auto easeInBounce = [](double x) {
+	inline auto easeInBounce = [](double x) {
 		return 1-easeOutBounce(1-x);
 	};
-	auto easeInOutBounce = [](double x) {
+	inline auto easeInOutBounce = [](double x) {
 		return x == 0 ? 0 : x == 1 ? 1 : x < 0.5 ?
 			(1-easeOutBounce(1-2*x))/2 :
 			(1+easeOutBounce(2*x-1))/2;
@@ -174,7 +174,7 @@ namespace builtin_motion {
 // }
 
 template<typename T>
-std::function<T(void)>
+inline std::function<T(void)>
 trans(T start, T end, unsigned int steps,
 	std::function<double(double)> f = [](double x) { return x; },
 	double start_time_point = 0.0, bool loop = true, bool reverse = false) {
@@ -208,7 +208,7 @@ trans(T start, T end, unsigned int steps,
 
 
 template<typename T>
-std::function<T(void)>
+inline std::function<T(void)>
 trans(const std::vector<T>& v, bool loop = true, bool reverse = false) {
 	unsigned int i = 0;
 	return [=]() mutable {
@@ -216,5 +216,7 @@ trans(const std::vector<T>& v, bool loop = true, bool reverse = false) {
 		return v[i++];
 	};
 }
+
+
 }
 }

@@ -3,6 +3,7 @@
 #include <graphics.h>
 #include <ctime>
 #include <vector>
+#include <cstdio>
 mouse_msg gMouseMsg = { 0 };
 key_msg gKeyMsg = { 0 };
 
@@ -11,9 +12,11 @@ using xege::animation::operator""pi;
 struct {
 	int x, y, w, h;
 	color_t color;
-} rect, rect2;
+} rect, rect2, rect3;
 
 PIMAGE pic2;
+PIMAGE unity_img;
+PIMAGE unity_img_bg_mix;
 
 // 加载函数，用于初始化资源
 void load (void);
@@ -61,9 +64,9 @@ int main (int argc, char *argv []) {
 	}
 	auto another_x = xege::animation::trans(x_motion);
 	auto y_pos_trans2 = xege::animation::trans(
-		static_cast<double>(rect2.y),
-		static_cast<double>(rect2.y+400),
-		fps*time_second,
+		static_cast<double>(0),
+		static_cast<double>(255),
+		fps*5.0,
 		xege::animation::builtin_motion::func2
 	);
 	auto color_trans = xege::animation::trans(
@@ -81,7 +84,7 @@ int main (int argc, char *argv []) {
 		rect.x = x_pos_trans();
 		rect.y = y_pos_trans();
 		rect2.y = another_x();
-		// rect2.y = y_pos_trans2();
+		rect3.w = y_pos_trans2();
 		putpixel(rect.x, rect.y, WHITE, pic2);
 		putpixel(rect2.x, rect2.y, WHITE, pic2);
 		putimage(0, 0, pic2);
@@ -98,9 +101,13 @@ void load (void) {
 //
 	rect = { 100, 100, 200, 200 };
 	rect2 = { 100, 100, 200, 200 };
+	rect3 = { 300, 300, 200, 200 };
 	// setfillcolor(WHITE);
-
 	pic2 = newimage(getwidth(), getheight());
+	unity_img = newimage();
+	getimage_pngfile(unity_img, "./res/unity2.png");
+	unity_img_bg_mix = newimage(getheight(unity_img), getwidth(unity_img));
+
 }
 void eventUpdate (void) {
 //
@@ -117,9 +124,15 @@ void dataUpdate (void) {
 }
 void drawInterface (void) {
 //
+	setbkcolor(WHITE, pic2);
+	cleardevice(pic2);
 	// line(rect.x, rect.y, rect.x + rect.w, rect.y + rect.h);
 	setfillcolor(rect.color);
 	bar(rect.x, rect.y, rect.x + rect.w, rect.y + rect.h);
 	setfillcolor(rect2.color);
 	bar(rect2.x, rect2.y, rect2.x + rect2.w, rect2.y + rect2.h);
+	getimage(unity_img_bg_mix, nullptr, rect3.x, rect3.y, getwidth(unity_img), getheight(unity_img));
+	putimage_withalpha(unity_img_bg_mix, unity_img, 0, 0);
+	putimage_alphablend(nullptr, unity_img_bg_mix, rect3.x, rect3.y, rect3.w);
+	// printf("%d\n", err);
 }
